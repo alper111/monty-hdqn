@@ -1,0 +1,8 @@
+gym[accept-rom-license]
+gym_montezuma @ git+https://github.com/alper111/pix2sym
+matplotlib
+numpy==1.26.4
+opencv-python
+torch
+torchvision
+torchrl
