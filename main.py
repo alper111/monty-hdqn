@@ -33,6 +33,7 @@ if __name__ == "__main__":
         batch_size=128,
         target_update_iter=10000,
         save_folder="save/agent1",
+        resume=False
     )
     it = 0
     episode = 0
@@ -54,12 +55,12 @@ if __name__ == "__main__":
             total_reward += reward
             t += 1
 
-            # agent.record(obs, action, reward, next_obs, terminated, init_vec, next_init_vec)
-            # it += 1
+            agent.record(obs, action, reward, next_obs, terminated, init_vec, next_init_vec)
+            it += 1
 
-            # if it % UPDATE_FREQ == 0:
-            #     loss += agent.update()
-            #     it = 0
+            if it % UPDATE_FREQ == 0:
+                loss += agent.update()
+                it = 0
 
             obs = next_obs
 
