@@ -95,11 +95,13 @@ class DQNAgent:
 
         with torch.no_grad():
             q_next = self.target_net(sample["next_state"])
-            # NOTE: what if q values are negative
             q_next[sample["next_init_vec"].logical_not()] = 0.0
             q_next_max, _ = q_next.max(dim=-1)
         q_next_max = q_next_max.reshape(-1)
-        target = sample["reward"].clamp(0.0, 1.0) + (1-sample["terminated"])*self.gamma*q_next_max
+        # NOTE: I'm currently just dividing the reward by a hundred
+        # to regularize the network training. Anita also recommended
+        # clamping it to 1.
+        target = sample["reward"] / 100.0 + (1-sample["terminated"])*self.gamma*q_next_max
         q_now = self.network(sample["state"])[torch.arange(batch_size), sample["action"]]
         loss = self.criterion(q_now, target)
         return loss
